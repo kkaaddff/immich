@@ -6,6 +6,7 @@
   import { oauth } from '$lib/utils';
   import { getServerErrorMessage, handleError } from '$lib/utils/handle-error';
   import { getServerConfig, login } from '@immich/sdk';
+  import { _ } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import Button from '../elements/buttons/button.svelte';
@@ -123,7 +124,7 @@
             <LoadingSpinner />
           </span>
         {:else}
-          Login
+          {$_('common.login')}
         {/if}
       </Button>
     </div>
