@@ -16,6 +16,7 @@
   import { createEventDispatcher } from 'svelte';
   import JobTileButton from './job-tile-button.svelte';
   import JobTileStatus from './job-tile-status.svelte';
+  import { _ } from 'svelte-i18n';
 
   export let title: string;
   export let subtitle: string | undefined;
@@ -43,9 +44,9 @@
 >
   <div class="flex w-full flex-col">
     {#if queueStatus.isPaused}
-      <JobTileStatus color="warning">Paused</JobTileStatus>
+      <JobTileStatus color="warning">{$_('components.admin.jobs.tile.paused')}</JobTileStatus>
     {:else if queueStatus.isActive}
-      <JobTileStatus color="success">Active</JobTileStatus>
+      <JobTileStatus color="success">{$_('components.admin.jobs.tile.active')}</JobTileStatus>
     {/if}
     <div class="flex flex-col gap-2 p-5 sm:p-7 md:p-9">
       <div class="flex items-center gap-4 text-xl font-semibold text-immich-primary dark:text-immich-dark-primary">
@@ -57,7 +58,8 @@
           {#if jobCounts.failed > 0}
             <Badge color="primary">
               <span class="text-sm">
-                {jobCounts.failed.toLocaleString($locale)} failed
+                {jobCounts.failed.toLocaleString($locale)}
+                {$_('common.failed')}
               </span>
               <Button
                 size="tiny"
@@ -71,7 +73,8 @@
           {#if jobCounts.delayed > 0}
             <Badge color="secondary">
               <span class="text-sm">
-                {jobCounts.delayed.toLocaleString($locale)} delayed
+                {jobCounts.delayed.toLocaleString($locale)}
+                {$_('components.admin.jobs.tile.delayed')}
               </span>
             </Badge>
           {/if}
@@ -92,7 +95,7 @@
         <div
           class="{commonClasses} rounded-t-lg bg-immich-primary text-white dark:bg-immich-dark-primary dark:text-immich-dark-gray sm:rounded-l-lg sm:rounded-r-none"
         >
-          <p>Active</p>
+          <p>{$_('components.admin.jobs.tile.active')}</p>
           <p class="text-2xl">
             {jobCounts.active.toLocaleString($locale)}
           </p>
@@ -104,7 +107,7 @@
           <p class="text-2xl">
             {waitingCount.toLocaleString($locale)}
           </p>
-          <p>Waiting</p>
+          <p>{$_('components.admin.jobs.tile.waiting')}</p>
         </div>
       </div>
     </div>
@@ -116,12 +119,14 @@
         color="light-gray"
         on:click={() => dispatch('command', { command: JobCommand.Start, force: false })}
       >
-        <Icon path={mdiAlertCircle} size="36" /> DISABLED
+        <Icon path={mdiAlertCircle} size="36" />
+        {$_('components.admin.jobs.tile.disabled')}
       </JobTileButton>
     {:else if !isIdle}
       {#if waitingCount > 0}
         <JobTileButton color="gray" on:click={() => dispatch('command', { command: JobCommand.Empty, force: false })}>
-          <Icon path={mdiClose} size="24" /> CLEAR
+          <Icon path={mdiClose} size="24" />
+          {$_('components.admin.jobs.tile.clear')}
         </JobTileButton>
       {/if}
       {#if queueStatus.isPaused}
@@ -131,14 +136,16 @@
           on:click={() => dispatch('command', { command: JobCommand.Resume, force: false })}
         >
           <!-- size property is not reactive, so have to use width and height -->
-          <Icon path={mdiFastForward} {size} /> RESUME
+          <Icon path={mdiFastForward} {size} />
+          {$_('components.admin.jobs.tile.resume')}
         </JobTileButton>
       {:else}
         <JobTileButton
           color="light-gray"
           on:click={() => dispatch('command', { command: JobCommand.Pause, force: false })}
         >
-          <Icon path={mdiPause} size="24" /> PAUSE
+          <Icon path={mdiPause} size="24" />
+          {$_('components.admin.jobs.tile.pause')}
         </JobTileButton>
       {/if}
     {:else if allowForceCommand}
@@ -158,7 +165,8 @@
         color="light-gray"
         on:click={() => dispatch('command', { command: JobCommand.Start, force: false })}
       >
-        <Icon path={mdiPlay} size="48" /> START
+        <Icon path={mdiPlay} size="48" />
+        {$_('components.admin.jobs.tile.start')}
       </JobTileButton>
     {/if}
   </div>

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { AppRoute } from '$lib/constants';
+  import { _ } from 'svelte-i18n';
 </script>
 
-Apply the current
+{$_('components.admin.jobs.storage.header')}
 <a href="{AppRoute.ADMIN_SETTINGS}?open=storageTemplate" class="text-immich-primary dark:text-immich-dark-primary"
-  >Storage template</a
+  >{$_('components.admin.jobs.storage.header')}</a
 >
-to previously uploaded assets
+{$_('components.admin.jobs.storage.header')}

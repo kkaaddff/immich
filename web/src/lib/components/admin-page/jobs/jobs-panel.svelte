@@ -22,6 +22,9 @@
   import ConfirmDialogue from '../../shared-components/confirm-dialogue.svelte';
   import JobTile from './job-tile.svelte';
   import StorageMigrationDescription from './storage-migration-description.svelte';
+  import { _, unwrapFunctionStore } from 'svelte-i18n';
+
+  const format = unwrapFunctionStore(_);
 
   export let jobs: AllJobStatusResponseDto;
 
@@ -60,24 +63,24 @@
     [JobName.ThumbnailGeneration]: {
       icon: mdiFileJpgBox,
       title: getJobName(JobName.ThumbnailGeneration),
-      subtitle: 'Generate large, small and blurred thumbnails for each asset, as well as thumbnails for each person',
+      subtitle: format('components.admin.jobs.panel.generate-thumbnails-subtitle'),
     },
     [JobName.MetadataExtraction]: {
       icon: mdiTable,
       title: getJobName(JobName.MetadataExtraction),
-      subtitle: 'Extract metadata information from each asset, such as GPS and resolution',
+      subtitle: format('components.admin.jobs.panel.extract-metadata-subtitle'),
     },
     [JobName.Library]: {
       icon: mdiLibraryShelves,
       title: getJobName(JobName.Library),
-      subtitle: 'Perform library tasks',
+      subtitle: format('components.admin.jobs.panel.library-subtitle'),
       allText: 'ALL',
       missingText: 'REFRESH',
     },
     [JobName.Sidecar]: {
       title: getJobName(JobName.Sidecar),
       icon: mdiFileXmlBox,
-      subtitle: 'Discover or synchronize sidecar metadata from the filesystem',
+      subtitle: format('components.admin.jobs.panel.sidecar-subtitle'),
       allText: 'SYNC',
       missingText: 'DISCOVER',
       disabled: !$featureFlags.sidecar,
@@ -85,29 +88,27 @@
     [JobName.SmartSearch]: {
       icon: mdiImageSearch,
       title: getJobName(JobName.SmartSearch),
-      subtitle: 'Run machine learning on assets to support smart search',
+      subtitle: format('components.admin.jobs.panel.smart-search-subtitle'),
       disabled: !$featureFlags.smartSearch,
     },
     [JobName.FaceDetection]: {
       icon: mdiFaceRecognition,
       title: getJobName(JobName.FaceDetection),
-      subtitle:
-        'Detect the faces in assets using machine learning. For videos, only the thumbnail is considered. "All" (re-)processes all assets. "Missing" queues assets that haven\'t been processed yet. Detected faces will be queued for Facial Recognition after Face Detection is complete, grouping them into existing or new people.',
+      subtitle: format('components.admin.jobs.panel.face-detection-subtitle'),
       handleCommand: handleConfirmCommand,
       disabled: !$featureFlags.facialRecognition,
     },
     [JobName.FacialRecognition]: {
       icon: mdiTagFaces,
       title: getJobName(JobName.FacialRecognition),
-      subtitle:
-        'Group detected faces into people. This step runs after Face Detection is complete. "All" (re-)clusters all faces. "Missing" queues faces that don\'t have a person assigned.',
+      subtitle: format('components.admin.jobs.panel.facial-recognition-subtitle'),
       handleCommand: handleConfirmCommand,
       disabled: !$featureFlags.facialRecognition,
     },
     [JobName.VideoConversion]: {
       icon: mdiVideo,
       title: getJobName(JobName.VideoConversion),
-      subtitle: 'Transcode videos for wider compatibility with browsers and devices',
+      subtitle: format('components.admin.jobs.panel.video-conversion-subtitle'),
     },
     [JobName.StorageTemplateMigration]: {
       icon: mdiFolderMove,
@@ -118,7 +119,7 @@
     [JobName.Migration]: {
       icon: mdiFolderMove,
       title: getJobName(JobName.Migration),
-      subtitle: 'Migrate thumbnails for assets and faces to the latest folder structure',
+      subtitle: format('components.admin.jobs.panel.migration-subtitle'),
       allowForceCommand: false,
     },
   };
@@ -133,14 +134,23 @@
       switch (jobCommand.command) {
         case JobCommand.Empty: {
           notificationController.show({
-            message: `Cleared jobs for: ${title}`,
+            message: format({ id: 'components.admin.jobs.panel.message-cleared', values: { title: title } }),
             type: NotificationType.Info,
           });
           break;
         }
       }
     } catch (error) {
-      handleError(error, `Command '${jobCommand.command}' failed for job: ${title}`);
+      handleError(
+        error,
+        format({
+          id: 'components.admin.jobs.panel.command-error',
+          values: {
+            command: jobCommand.command,
+            title: title,
+          },
+        }),
+      );
     }
   }
 </script>
@@ -148,7 +158,7 @@
 {#if confirmJob}
   <ConfirmDialogue
     id="reprocess-faces-modal"
-    prompt="Are you sure you want to reprocess all faces? This will also clear named people."
+    prompt={$_('components.admin.jobs.panel.confirm-prompt')}
     {onConfirm}
     onClose={() => (confirmJob = null)}
   />

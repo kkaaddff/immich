@@ -1,6 +1,391 @@
 {
   "common": {
-    "Welcome":"欢迎使用",
-    "login": "登陆"
+    "welcome": "欢迎使用 Immich",
+    "start": "开始使用",
+    "cancel": "取消",
+    "login": "登录",
+    "delete": "删除",
+    "failed": "失败",
+    "enable-label": "已启用",
+    "year": "年",
+    "month": "月",
+    "week": "周",
+    "day": "日",
+    "hour": "小时",
+    "minute": "分钟",
+    "second": "秒"
+  },
+  "utils": {
+    "generateThumbnails": "生成缩略图",
+    "extractMetadata": "提取元数据",
+    "sidecarMetadata": "旁轴元数据",
+    "smartSearch": "智能搜索",
+    "faceDetection": "面部检测",
+    "facialRecognition": "面部识别",
+    "transcodeVideos": "转码视频",
+    "storageTemplateMigration": "存储模板迁移",
+    "migration": "迁移",
+    "backgroundTasks": "后台任务",
+    "search": "搜索",
+    "library": "图书馆"
+  },
+  "components": {
+    "admin": {
+      "jobs": {
+        "tile": {
+          "active": "活动",
+          "paused": "暂停",
+          "delayed": "延迟",
+          "waiting": "等待",
+          "disabled": "已禁用",
+          "clear": "清除",
+          "resume": "恢复",
+          "pause": "暂停",
+          "start": "开始"
+        },
+        "panel": {
+          "common-allText": "全部",
+          "common-missingText": "缺失",
+          "generate-thumbnails-subtitle": "为每个资产生成大的、小的和模糊的缩略图，以及为每个人生成缩略图",
+          "extract-metadata-subtitle": "从每个资产中提取元数据信息，如 GPS 和分辨率",
+          "sidecar-subtitle": "从文件系统发现或同步旁轴元数据",
+          "sidecar-allText": "同步",
+          "sidecar-missingText": "发现",
+          "smart-search-subtitle": "对资产运行机器学习以支持智能搜索",
+          "face-detection-subtitle": "使用机器学习检测资产中的面部。对于视频，只考虑缩略图。'全部' 重新处理所有资产。'缺失' 将尚未处理的资产排入队列。检测到的面部将在面部检测完成后排入面部识别队列，将其分组到现有的或新的人员中。",
+          "facial-recognition-subtitle": "将检测到的面部分组为人员。此步骤在面部检测完成后运行。'全部' 重新聚类所有面部。'缺失' 将尚未分配给人的面部排入队列。",
+          "video-conversion-subtitle": "转码视频以更好地兼容浏览器和设备",
+          "migration-subtitle": "迁移资产和面部的缩略图到最新的文件夹结构",
+          "library-subtitle": "执行图书馆任务",
+          "library-allText": "全部",
+          "library-missingText": "刷新",
+          "message-cleared": "已清除：{title}的工作",
+          "command-error": "命令 '{command}' 对工作：{title}执行失败",
+          "confirm-prompt": "你确定要重新处理所有面部吗？这也会清除已命名的人员。"
+        },
+        "storage": {
+          "header": "应用当前",
+          "link": "存储模板",
+          "footer": "到先前上传的资产"
+        }
+      },
+      "stats": {
+        "panel": {
+          "total": "总使用量",
+          "photos": "照片",
+          "videos": "视频",
+          "storage": "存储",
+          "detail": "用户使用详情",
+          "detail-user": "用户",
+          "detail-photos": "照片",
+          "detail-videos": "视频",
+          "detail-usage": "使用量",
+          "detail-unlimited": "无限"
+        }
+      },
+      "settings": {
+        "ffmpeg": {
+          "doc": "要了解这里使用的术语，请参阅 FFmpeg 文档",
+          "crf-label": "恒定速率因子（-crf）",
+          "crf-desc": "视频质量级别。典型值为 H.264 的 23，HEVC 的 28，和 VP9 的 31。数值越低越好，但编码时间更长，文件更大。",
+          "preset-label": "预设（-preset）",
+          "preset-desc": "压缩速度。较慢的预设会产生更小的文件，并在目标比特率时提高质量。VP9 忽略超过 `faster` 的速度。",
+          "preset-ultrafast": "极速",
+          "preset-superfast": "超速",
+          "preset-veryfast": "快速",
+          "preset-faster": "更快",
+          "preset-fast": "较快",
+          "preset-medium": "中等",
+          "preset-slow": "慢速",
+          "preset-slower": "较慢",
+          "preset-veryslow": "非常慢",
+          "acodec-label": "音频编解码器",
+          "acodec-desc": "Opus 是最高质量选项，但旧设备或软件的兼容性较低。",
+          "audioCodecs-label": "接受的音频编解码器",
+          "audioCodecs-desc": "选择哪些音频编解码器不需要转码。仅用于特定的转码策略。",
+          "vcodec-label": "视频编解码器",
+          "vcodec-desc": "VP9 效率高且网络兼容性好，但转码时间更长。HEVC 表现相似，但网络兼容性较低。H.264 兼容性广泛，转码快速，但文件更大。",
+          "videoCodecs-label": "接受的视频编解码器",
+          "videoCodecs-desc": "选择哪些视频编解码器不需要转码。仅用于特定的转码策略。",
+          "resolution-label": "目标分辨率",
+          "resolution-desc": "更高的分辨率可以保留更多细节，但编码时间更长，文件大小更大，可能会降低应用响应速度。",
+          "bitrate-label": "最大比特率",
+          "bitrate-desc": "设置最大比特率可以使文件大小更可预测，但代价是质量略有降低。在 720p 下，VP9 或 HEVC 的典型值是 2600k，H.264 是 4500k。如果设置为 0 则禁用。",
+          "threads-label": "线程",
+          "threads-desc": "更高的值可加快编码速度，但给服务器处理其他任务留下的空间较少。此值不应超过 CPU 核心数。如果设置为 0，则最大化利用。",
+          "transcode-label": "转码策略",
+          "transcode-desc": "何时应转码视频的策略。HDR 视频总是会被转码（除非禁用转码）。",
+          "transcode-options-all": "所有视频",
+          "transcode-options-optimal": "分辨率高于目标分辨率或格式不受支持的视频",
+          "transcode-options-bitrate": "比特率高于最大比特率或格式不受支持的视频",
+          "transcode-options-required": "仅格式不受支持的视频",
+          "transcode-options-disabled": "不转码任何视频，可能导致某些客户端播放失败",
+          "tonemap-label": "色调映射",
+          "tonemap-desc": "在转换为 SDR 时尝试保持 HDR 视频的外观。每种算法对颜色、细节和亮度的权衡不同。Hable 保持细节，Mobius 保持颜色，Reinhard 保持亮度。",
+          "tonemap-options-Hable": "Hable",
+          "tonemap-options-Mobius": "Mobius",
+          "tonemap-options-Reinhard": "Reinhard",
+          "tonemap-options-Disabled": "禁用",
+          "twoPass-title": "双通编码",
+          "twoPass-subtitle": "进行两次编码以产生更好的视频质量。当启用最大比特率时（对 H.264 和 HEVC 是必需的），此模式将使用基于最大比特率的比特率范围，并忽略 CRF。对于 VP9，如果禁用了最大比特率，则可以使用 CRF。",
+          "hardware-title": "硬件加速",
+          "hardware-subtitle": "试验性；速度更快，但相同比特率下质量较低",
+          "hardware-accel-label": "加速 API",
+          "hardware-accel-desc": "与设备交互以加速转码的 API。此设置为'最佳努力'：在失败时将回退到软件转码。根据您的硬件，VP9 可能会或不会工作。",
+          "hardware-accel-options-Nvenc": "NVENC（需要 NVIDIA GPU）",
+          "hardware-accel-options-Qsv": "Quick Sync（需要第七代或更高版本的 Intel CPU）",
+          "hardware-accel-options-Vaapi": "VAAPI",
+          "hardware-accel-options-Rkmpp": "RKMPP（仅限 Rockchip SOC）",
+          "hardware-accel-options-Disabled": "禁用",
+          "hardware-cqmode-label": "恒定质量模式",
+          "hardware-cqmode-desc": "ICQ 优于 CQP，但某些硬件加速设备不支持此模式。设置此选项时将优先使用指定模式进行基于质量的编码。NVENC 忽略此设置，因为它不支持 ICQ。",
+          "hardware-temporal-aq-label": "时域 AQ",
+          "hardware-temporal-aq-desc": "仅适用于 NVENC。提高低动作、高细节场景的质量。可能与旧设备不兼容。",
+          "hardware-preferred-hw-device-label": "首选硬件设备",
+          "hardware-preferred-hw-device-desc": "仅适用于 VAAPI 和 QSV。设置用于硬件转码的 dri 节点。",
+          "advanced-title": "高级",
+          "advanced-subtitle": "大多数用户不需要更改的选项",
+          "advanced-nlp-label": "色调映射 NPL",
+          "advanced-nlp-desc": "颜色将根据这种亮度的显示器进行调整。与直觉相反，较低的值增加视频的亮度，反之亦然，因为它补偿了显示器的亮度。0 自动设置此值。",
+          "advanced-bframes-label": "最大 B-帧",
+          "advanced-bframes-desc": "较高的值提高压缩效率，但会降低编码速度。可能与旧设备上的硬件加速不兼容。0 禁用 B-帧，-1 自动设置此值。",
+          "advanced-refs-label": "参考帧",
+          "advanced-refs-desc": "压缩给定帧时参考的帧数。较高的值提高压缩效率，但降低编码速度。0 自动设置此值。",
+          "advanced-gop-size-label": "最大关键帧间隔",
+          "advanced-gop-size-desc": "设置关键帧之间的最大帧距。较低的值降低压缩效率，但改善寻找时间并可能提高快速运动场景的质量。0 自动设置此值。"
+        },
+        "image": {
+          "thumbnail-format-label": "缩略图格式",
+          "thumbnail-format-desc": "WebP 生成的文件比 JPEG 小，但编码速度更慢。",
+          "thumbnail-size-label": "缩略图分辨率",
+          "thumbnail-size-desc": "用于查看照片群组（主时间线、相册视图等）。更高的分辨率可以保留更多细节，但编码时间更长，文件更大，并可能降低应用响应速度。",
+          "preview-format-label": "预览格式",
+          "preview-format-desc": "WebP 生成的文件比 JPEG 小，但编码速度更慢。",
+          "preview-size-label": "预览分辨率",
+          "preview-size-desc": "用于查看单张照片和机器学习。更高的分辨率可以保留更多细节，但编码时间更长，文件更大，并可能降低应用响应速度。",
+          "quality-label": "质量",
+          "quality-desc": "图像质量从 1 到 100。数值越高，质量越好，但生成的文件越大。",
+          "colorspace-label": "优先使用宽色域",
+          "colorspace-desc": "对于缩略图使用 Display P3。这样可以更好地保持宽色域图像的活力，但在旧设备上的旧浏览器版本中可能显示不同。sRGB 图像将保持为 sRGB，以避免颜色偏移。"
+        },
+        "job": {
+          "job-name-thumbnailGeneration": "生成缩略图",
+          "job-name-metadataExtraction": "提取元数据",
+          "job-name-videoConversion": "视频转换",
+          "job-name-faceDetection": "面部检测",
+          "job-name-facialRecognition": "面部识别",
+          "job-name-smartSearch": "智能搜索",
+          "job-name-backgroundTask": "后台任务",
+          "job-name-storageTemplateMigration": "存储模板迁移",
+          "job-name-migration": "迁移",
+          "job-name-search": "搜索",
+          "job-name-sidecar": "旁轴",
+          "job-name-library": "图书馆",
+          "concurrency": "并发",
+          "unsafe": "此任务不支持并发。"
+        },
+        "library": {
+          "cron-title1": "每晚午夜",
+          "cron-title2": "每晚2点",
+          "cron-title3": "每天下午1点",
+          "cron-title4": "每6小时",
+          "watching-title": "库监控（实验性）",
+          "watching-subtitle": "自动监控文件变化",
+          "watching-filesystem-title": "监控文件系统",
+          "watching-filesystem-subtitle": "监控外部库的文件变化",
+          "scanning-title": "定期扫描",
+          "scanning-subtitle": "配置定期库扫描",
+          "scanning-enabled-subtitle": "启用定期库扫描",
+          "scanning-expression-label": "Cron 表达式预设",
+          "scanning-expression-input-label": "Cron 表达式",
+          "scanning-expression-input-desc": "使用 cron 格式设置扫描间隔。有关更多信息，请参考例如 ",
+          "scanning-expression-input-link": "Crontab Guru"
+        },
+        "logging": {
+          "enable-subtitle": "日志记录",
+          "level-label": "级别",
+          "level-desc": "启用时，使用何种日志级别。",
+          "level-options-verbose": "详细",
+          "level-options-debug": "调试",
+          "level-options-log": "日志",
+          "level-options-warn": "警告",
+          "level-options-error": "错误",
+          "level-options-fatal": "致命",
+          "level-options-off": "关闭"
+        },
+        "machine-learning": {
+          "enable-subtitle": "如果禁用，所有机器学习功能将被禁用，不管以下设置如何。",
+          "url-title": "URL",
+          "url-desc": "机器学习服务器的 URL",
+          "smart-title": "智能搜索",
+          "smart-subtitle": "使用 CLIP 嵌入语义搜索图像",
+          "enable-clip-subtitle": "如果禁用，将不会对图像进行智能搜索编码。",
+          "clip-model-label": "CLIP 模型",
+          "clip-model-desc": "此处列出的 CLIP 模型名称。请注意，更改模型后，必须重新运行 '智能搜索' 任务以重新编码所有图像。",
+          "facial-title": "面部识别",
+          "facial-subtitle": "检测、识别并分组图像中的面部",
+          "facial-enable-subtitle": "如果禁用，将不会对图像进行面部识别编码，也不会在探索页面的人物部分显示。",
+          "facial-model-label": "面部识别模型",
+          "facial-model-desc": "模型按大小顺序列出。较大的模型运行更慢，占用更多内存，但结果更好。请注意，更改模型后，必须重新运行面部检测任务以重新处理所有图像。",
+          "facial-min-score-label": "最小检测分数",
+          "facial-min-score-desc": "面部被检测出的最小置信分数，从 0 到 1。较低的值将检测更多面部，但可能导致误报。",
+          "facial-max-distance-label": "最大识别距离",
+          "facial-max-distance-desc": "两张面部被认为是同一个人的最大距离，范围从 0 到 2。降低此值可以防止将两个人标记为同一个人，而提高此值可以防止将同一个人标记为两个不同的人。请注意，合并两个人比分开一个人更容易，所以在可能的情况下，应选择较低的阈值。",
+          "facial-min-faces-label": "最小识别面部数",
+          "facial-min-faces-desc": "创建一个人物所需的最小识别面部数量。增加此值可以使面部识别更精确，但也增加了面部未被分配到任何人的可能性。",
+          "facial-max-faces-label": "最大面部数"
+        },
+        "map": {
+          "title": "地图设置",
+          "subtitle": "管理地图设置",
+          "enable-subtitle": "启用地图功能",
+          "Style desc": "风格.json地图主题的 URL",
+          "light-style-label": "浅色风格",
+          "dark-style-label": "深色风格",
+          "reverse-geocoding-title": "逆地理编码设置",
+          "reverseGeocoding-subtitle": "管理逆地理编码设置",
+          "enable-reverse-geocoding-subtitle": "启用逆地理编码"
+        },
+        "new-version-check": {
+          "subtitle": "启用定期请求到 GitHub 检查新版本"
+        },
+        "oauth": {
+          "details": "有关此功能的更多详情，请参考文档",
+          "subtitle": "使用 OAuth 登录",
+          "client-id-label": "客户端 ID",
+          "client-secret-label": "客户端密钥",
+          "scope-label": "范围",
+          "signing-algorithm-label": "签名算法",
+          "storage-label-claim-label": "存储标签声明",
+          "storage-label-claim-desc": "自动设置用户的存储标签为此声明的值。",
+          "storage-quota-claim-label": "存储配额声明",
+          "storage-quota-claim-desc": "自动设置用户的存储配额为此声明的值。",
+          "default-storage-quota-label": "默认存储配额（GiB）",
+          "default-storage-quota-desc": "未提供声明时使用的配额，以 GiB 为单位（输入 0 为无限配额）。",
+          "button-text-label": "按钮文本",
+          "auto-register-label": "自动注册",
+          "auto-register-subtitle": "OAuth 登录后自动注册新用户",
+          "auto-launch-label": "自动启动",
+          "auto-launch-subtitle": "在导航到登录页面时自动开始 OAuth 登录流程",
+          "issuer-url-label": "发行者 URL",
+          "mobile-override-enabled-label": "启用移动重定向 URI 覆盖",
+          "mobile-redirect-uri-enable-label": "移动重定向 URI 覆盖",
+          "mobile-redirect-uri-enable-subtitle": "启用时，'app.immich:/' 是无效的重定向 URI。",
+          "mobile-redirect-uri-label": "移动重定向 URI"
+        },
+        "password": {
+          "subtitle": "使用电子邮件和密码登录"
+        },
+        "server": {
+          "external-domain-label": "外部域名",
+          "external-domain-desc": "公共共享链接的域名，包括 http(s)://",
+          "login-page-message-label": "欢迎消息",
+          "login-page-message-desc": "登录页面显示的消息。"
+        },
+        "storage": {
+          "template-details": "有关此功能的更多详情，请参考文档",
+          "template-link1": "存储模板",
+          "template-&": "及其",
+          "template-link2": "影响",
+          "template-enable-subtitle": "启用存储模板引擎",
+          "template-hash-verification-title": "启用哈希验证",
+          "template-hash-verification-subtitle": "启用哈希验证，除非你确定了解其影响，否则不要禁用",
+          "datetime-format-title": "日期和时间",
+          "datetime-format-desc1": "使用资产的创建时间戳作为日期时间信息",
+          "datetime-format-desc2": "示例时间 2022-02-03T04:56:05.250",
+          "variables-title": "其他变量",
+          "variables-filename": "文件名",
+          "variables-filetype": "文件类型",
+          "variables-other": "其他"
+        },
+        "theme": {
+          "label": "自定义 CSS",
+          "desc": "层叠样式表允许自定义 Immich 的设计。"
+        },
+        "trash": {
+          "enable-subtitle": "启用垃圾功能",
+          "days-label": "自动清空",
+          "days-subtitle": "在垃圾箱中保留资产的天数，然后永久删除它们"
+        },
+        "user": {
+          "delete-delay-label": "删除延迟",
+          "delete-delay-desc": "删除用户账户和资产后，永久删除的天数。用户删除任务将在午夜运行以检查准备删除的用户。更改此设置将在下一次执行时评估。"
+        }
+      },
+      "delete": {
+        "user": "删除用户",
+        "permanently": "永久删除",
+        "force": "的账户和资产将被排队进行永久删除",
+        "immediately": "立即",
+        "delayed": "的账户和资产将安排在",
+        "days": "天后永久删除",
+        "warning": "警告：这将立即删除用户及其所有资产。此操作无法撤销，文件也无法恢复。",
+        "confirm": "要确认，请在下面输入 {email}"
+      },
+      "restore": {
+        "title": "恢复用户",
+        "confirm": "继续",
+        "prompt": "的账户将被恢复。"
+      }
+    },
+    "album": {
+      "card": {
+        "owned": "拥有",
+        "shared-by": "{name} 分享",
+        "shared": "已分享"
+      },
+      "description": {
+        "placeholder": "添加描述"
+      },
+      "options": {
+        "options-asc": "最早的在前",
+        "options-desc": "最新的在前",
+        "error": "更新相册顺序时出错",
+        "title": "设置",
+        "order": "显示顺序",
+        "likes-title": "评论与喜欢",
+        "likes-subtitle": "允许其他人回应",
+        "people": "人物",
+        "people-invite": "邀请人物",
+        "owner": "所有者"
+      },
+      "summary": {
+        "count": "{count} 项"
+      },
+      "title": {
+        "title": "编辑标题",
+        "placeholder": "添加标题"
+      },
+      "controls": {
+        "create": "创建相册",
+        "placeholder": "搜索相册",
+        "sort": "按…排序相册",
+        "group": "按…分组相册",
+        "expand": "展开全部",
+        "collapse": "全部折叠",
+        "covers": "封面",
+        "list": "列表"
+      }
+    }
+  },
+  "routes": {
+    "albums": {},
+    "archive": {},
+    "explore": {},
+    "favorites": {},
+    "partners": {},
+    "people": {},
+    "photos": {},
+    "places": {},
+    "search": {},
+    "share": {},
+    "sharing": {},
+    "trash": {},
+    "layout": {},
+    "admin": {
+      "library": {},
+      "repair": {},
+      "user": {}
+    }
   }
 }

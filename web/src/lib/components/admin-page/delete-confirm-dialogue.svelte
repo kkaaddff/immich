@@ -5,6 +5,7 @@
   import { serverConfig } from '$lib/stores/server-config.store';
   import { createEventDispatcher } from 'svelte';
   import Checkbox from '$lib/components/elements/checkbox.svelte';
+  import { _ } from 'svelte-i18n';
 
   export let user: UserResponseDto;
 
@@ -54,12 +55,13 @@
     <div class="flex flex-col gap-4">
       {#if forceDelete}
         <p>
-          <b>{user.name}</b>'s account and assets will be queued for permanent deletion <b>immediately</b>.
+          <b>{user.name}</b>{$_('components.admin.delete.force')}<b>{$_('components.admin.delete.immediately')}</b>.
         </p>
       {:else}
         <p>
-          <b>{user.name}</b>'s account and assets will be scheduled for permanent deletion in {$serverConfig.userDeleteDelay}
-          days.
+          <b>{user.name}</b>{$_('components.admin.delete.delayed')}
+          {$serverConfig.userDeleteDelay}
+          {$_('components.admin.delete.days')}
         </p>
       {/if}
 
@@ -77,12 +79,14 @@
 
       {#if forceDelete}
         <p class="text-immich-error">
-          WARNING: This will immediately remove the user and all assets. This cannot be undone and the files cannot be
-          recovered.
+          {$_('components.admin.delete.warning')}
         </p>
 
         <p class="immich-form-label text-sm" id="confirm-user-desc">
-          To confirm, type "{user.email}" below
+          {$_({
+            id: 'components.admin.delete.confirm',
+            values: { email: user.email },
+          })}
         </p>
 
         <input

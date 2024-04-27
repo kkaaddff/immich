@@ -14,6 +14,9 @@ import {
   type UserResponseDto,
 } from '@immich/sdk';
 import { mdiCogRefreshOutline, mdiDatabaseRefreshOutline, mdiImageRefreshOutline } from '@mdi/js';
+import { format, unwrapFunctionStore } from 'svelte-i18n';
+
+const $format = unwrapFunctionStore(format);
 
 interface DownloadRequestOptions<T = unknown> {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -112,18 +115,18 @@ export const downloadRequest = <TBody = unknown>(options: DownloadRequestOptions
 
 export const getJobName = (jobName: JobName) => {
   const names: Record<JobName, string> = {
-    [JobName.ThumbnailGeneration]: 'Generate Thumbnails',
-    [JobName.MetadataExtraction]: 'Extract Metadata',
-    [JobName.Sidecar]: 'Sidecar Metadata',
-    [JobName.SmartSearch]: 'Smart Search',
-    [JobName.FaceDetection]: 'Face Detection',
-    [JobName.FacialRecognition]: 'Facial Recognition',
-    [JobName.VideoConversion]: 'Transcode Videos',
-    [JobName.StorageTemplateMigration]: 'Storage Template Migration',
-    [JobName.Migration]: 'Migration',
-    [JobName.BackgroundTask]: 'Background Tasks',
-    [JobName.Search]: 'Search',
-    [JobName.Library]: 'Library',
+    [JobName.ThumbnailGeneration]: $format('utils.generateThumbnails'),
+    [JobName.MetadataExtraction]: $format('utils.extractMetadata'),
+    [JobName.Sidecar]: $format('utils.sidecarMetadata'),
+    [JobName.SmartSearch]: $format('utils.smartSearch'),
+    [JobName.FaceDetection]: $format('utils.faceDetection'),
+    [JobName.FacialRecognition]: $format('utils.facialRecognition'),
+    [JobName.VideoConversion]: $format('utils.transcodeVideos'),
+    [JobName.StorageTemplateMigration]: $format('utils.storageTemplateMigration'),
+    [JobName.Migration]: $format('utils.migration'),
+    [JobName.BackgroundTask]: $format('utils.backgroundTasks'),
+    [JobName.Search]: $format('utils.search'),
+    [JobName.Library]: $format('utils.search'),
   };
 
   return names[jobName];

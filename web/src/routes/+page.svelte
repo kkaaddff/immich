@@ -10,10 +10,10 @@
     <div class="flex place-content-center place-items-center">
       <ImmichLogo noText class="text-center" height="200" width="200" />
     </div>
-    <h1 class="text-4xl font-bold text-immich-primary dark:text-immich-dark-primary">{$_('common.Welcome')}</h1>
+    <h1 class="text-4xl font-bold text-immich-primary dark:text-immich-dark-primary">{$_('common.welcome')}</h1>
     <a href={AppRoute.AUTH_REGISTER}>
       <Button size="lg" rounded="lg">
-        <span class="px-2 font-bold">Getting Started</span>
+        <span class="px-2 font-bold">$_('common.start')</span>
       </Button>
     </a>
   </div>
